@@ -2264,4 +2264,4 @@ app.get('/', (req, res) => {
   res.send('Asrafuls amazon clone backend server is running......')
 })
 
-app.listen(port)
+app.listen(process.env.PORT || port)
