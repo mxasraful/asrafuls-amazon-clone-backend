@@ -8,7 +8,6 @@ require('dotenv').config()
 
 const port = 3001
 
-
 app.use(cors())
 app.use(bodyParser.json())
 
@@ -58,9 +57,7 @@ client.connect(err => {
 
   // Get one product data by id
   app.get('/product/:id', (req, res) => {
-    productsCollection.findOne({
-      id: req.params.id
-    })
+    productsCollection.findOne({ id: req.params.id })
       .then(data => {
         res.send(data)
       })
