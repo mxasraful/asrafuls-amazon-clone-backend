@@ -24,6 +24,7 @@ client.connect(err => {
   const deliveryCollection = client.db("a-ama-clone").collection("users-delivery-address");
   const categoriesCollection = client.db("a-ama-clone").collection("categories");
   const ordersCollection = client.db("a-ama-clone").collection("orders");
+  const adminsCollection = client.db("a-ama-clone").collection("admins");
 
   app.get('/products', (req, res) => {
     productsCollection.find({})
@@ -73,8 +74,8 @@ client.connect(err => {
 
   // Get limited products data by category
   app.get('/search', (req, res) => {
-    if (req?.query?.name.length > 0) {
-      productsCollection.find({ title: { $regex: req?.query?.name } })
+    if (req.query.name.length > 0) {
+      productsCollection.find({ title: { $regex: req.query.name } })
         .toArray((err, docx) => {
           res.status(200).send(docx)
         })
@@ -131,6 +132,18 @@ client.connect(err => {
         // }
       })
   })
+
+  // Post order data in DB
+  // app.get('/post-admin', (req, res) => {
+  //   adminsCollection.insertOne({
+  //     email: "mxasraful2000@gmail.com",
+  //     role: "admin",
+  //     that_added: "mxasraful2000@gmail.com"
+  //   })
+  //     .then(response => {
+  //       res.send("Added...")
+  //     })
+  // })
 
 
 
