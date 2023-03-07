@@ -14,7 +14,11 @@ app.use(bodyParser.json())
 
 // Connect to mongodb
 const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@cluster0.llje0.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.v1
+});
 
 
 client.connect(err => {
@@ -70,10 +74,18 @@ client.connect(err => {
       })
   })
 
-  // Get limited products data by category
+  // Get products by search
   app.get('/search', (req, res) => {
     if (req.query.name.length > 0) {
-      productsCollection.find({ title: { $regex: req.query.name } })
+      productsCollection.find(
+        {
+          "$or": [
+            { title: { $regex: req.query.name, $options: "$i" } },
+            { brand: { $regex: req.query.name, $options: "$i" } },
+            { category: { $regex: req.query.name, $options: "$i" } }
+          ]
+        }
+      )
         .toArray((err, docx) => {
           res.status(200).send(docx)
         })
@@ -129,11 +141,6 @@ client.connect(err => {
         //   res.status(200).send("Order Place Successful...")
         // }
       })
-  })
-
-  // Test
-  app.post('/test', (req, res) => {
-    res.send("Test Running")
   })
 
   // Post order data in DB
