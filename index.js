@@ -132,6 +132,11 @@ client.connect(err => {
       })
   })
 
+  // Test
+  app.post('/test', (req, res) => {
+    res.send("Test Running")
+  })
+
   // Post order data in DB
   // app.get('/post-admin', (req, res) => {
   //   adminsCollection.insertOne({
