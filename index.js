@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express()
 const MongoClient = require('mongodb').MongoClient;
-const { response } = require('express');
 require('dotenv').config()
 
 const port = 3001
@@ -86,7 +85,7 @@ client.connect(err => {
 
   // Set category
   app.get('/categoriesAdd', (req, res) => {
-    categoriesCollection.insertMany(categories)
+    // categoriesCollection.insertMany(categories)
     res.send("Added...")
   })
 
