@@ -90,7 +90,7 @@ client.connect(err => {
           res.status(200).send(docx)
         })
     } else {
-      res.status(400).send("Search value empty.")
+      res.status(400).message("Search value empty.")
     }
   })
 
@@ -104,7 +104,7 @@ client.connect(err => {
   app.get('/category', (req, res) => {
     categoriesCollection.find({})
       .toArray((err, docx) => {
-        res.send(docx)
+        re.status(200).send(docx)
       })
   })
 
@@ -112,14 +112,14 @@ client.connect(err => {
   app.post('/getproductsbymoreid', (req, res) => {
     productsCollection.find({ id: { $in: req.body } })
       .toArray((err, docx) => {
-        res.send(docx)
-        console.log(docx)
+        res.status(200).send(docx)
       })
   })
 
   // Add a delivery address 
   app.post('/addADeliveryAddress', (req, res) => {
     deliveryCollection.insertOne(req.body)
+    res.status(200).send("Deleivery Added Successfull.")
   })
 
   // Get delivery address 
@@ -143,6 +143,15 @@ client.connect(err => {
       })
   })
 
+  // Send Admin Items 
+  app.post('/admin/check', (req, res) => {
+    if (req.body.email) {
+      adminsCollection.findOne({ email: req.body.email })
+    } else {
+      res.status(407).message("Email Is Reaqured.")
+    }
+  })
+
   // Post order data in DB
   // app.get('/post-admin', (req, res) => {
   //   adminsCollection.insertOne({
@@ -161,7 +170,7 @@ client.connect(err => {
   app.get('/productsAdd', (req, res) => {
     productsCollection.insertMany(products)
       .then(response => {
-        res.send("Added.....")
+        res.send("Added...")
       })
   })
 });
